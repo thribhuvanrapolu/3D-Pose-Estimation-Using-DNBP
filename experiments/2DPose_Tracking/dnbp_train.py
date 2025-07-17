@@ -274,6 +274,7 @@ def train_dnbp(config):
 		while epoch_seqs<1000:
 			for i_batch, sample_batched in tqdm(enumerate(train_dataloader)):
 				epoch_seqs += train_batch_size
+				print(epoch_seqs)
 				if epoch_seqs>1000:
 					break
 				# Window: B x S x C x H x W
