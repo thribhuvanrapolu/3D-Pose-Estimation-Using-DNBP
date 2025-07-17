@@ -12,7 +12,7 @@ diffBP.egg-info/
 *epoch_*
 *.png
 *.jpg
-*.json
+# *.json
 *.pdf
 
 # datasets
