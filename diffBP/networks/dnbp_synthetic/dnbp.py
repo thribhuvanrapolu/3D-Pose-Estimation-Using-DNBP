@@ -25,7 +25,7 @@ class DNBP(nn.Module):
         self.particle_size = particle_size
         
         self.est_bounds = est_bounds
-        
+
         self.std = std
         self.density_std = density_std
         self.device = device
@@ -304,14 +304,39 @@ class DNBP(nn.Module):
             num_int = 10
             
             for src_i, src_ in enumerate(self.inc_nghbrs[dst_]):
-                # Determine edge index of message pass from src_->dst_
-                edge_i = ((self.graph == torch.tensor([[min(src_,dst_)],
-                                                       [max(src_,dst_)]])).all(dim=0).nonzero().squeeze(0) 
-                          == self.edge_set).nonzero().squeeze(0)
+                # # Determine edge index of message pass from src_->dst_
+                # edge_i = ((self.graph == torch.tensor([[min(src_,dst_)],
+                #                                        [max(src_,dst_)]])).all(dim=0).nonzero().squeeze(0) 
+                #           == self.edge_set).nonzero().squeeze(0)
+                
+                # Initialize edge_i as an empty tensor, assuming no edge will be found
+                edge_i = torch.tensor([])
+
+					      # 1. First, check for the forward edge (src_, _)
+                fwd_edge_tensor = (self.graph == torch.tensor([[src_], [dst_]])).all(dim=0).nonzero()
+                if fwd_edge_tensor.numel() > 0:
+                    fwd_id = fwd_edge_tensor.squeeze().item()
+                    # Check if this forward ID is in the edge_set
+                    fwd_pos = (fwd_id == self.edge_set).nonzero()
+                    if fwd_pos.numel() > 0:
+                        edge_i = fwd_pos.squeeze()
+
+                # 2. If the forward edge wasn't found in the set, check for the backward edge (dst_, src_)
+                if edge_i.numel() == 0:
+                    bwd_edge_tensor = (self.graph == torch.tensor([[dst_], [src_]])).all(dim=0).nonzero()
+                    if bwd_edge_tensor.numel() > 0:
+                        bwd_id = bwd_edge_tensor.squeeze().item()
+                        # Check if this backward ID is in the edge_set
+                        bwd_pos = (bwd_id == self.edge_set).nonzero()
+                        if bwd_pos.numel() > 0:
+                            edge_i = bwd_pos.squeeze()
+                
+                
                 
                 # Isolate outgoing particles from src_->dst_ for w_unary calculation
                 # These outgoing particles are in the frame of dst_
                 msgs = self.message_particles[dst_][:,src_i].contiguous().view(-1,1,self.particle_size)
+                # print("edge_i:", edge_i, "src_:", src_, "dst_:", dst_)
                 
                 # Generate delta samples to translate particles from dst_ frame to src_ frame
                 if self.multi_edge_samplers:
@@ -658,6 +683,8 @@ class DNBP(nn.Module):
            
 
         x = x.double()
+        # convert self.std to tensor from list
+        
         diffsq = (((x-belief_particles)/self.std)**2).sum(dim=-1)
         exp_val = torch.exp((-1/2) * diffsq)
         fact = 1/(self.std*np.sqrt(2*np.pi))
