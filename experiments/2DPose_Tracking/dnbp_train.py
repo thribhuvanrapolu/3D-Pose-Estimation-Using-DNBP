@@ -243,7 +243,7 @@ def train_dnbp(config):
 	y = np.linspace(-1, 1, nump)
 	xv, yv = np.meshgrid(x, y)
 	grid = torch.from_numpy(np.concatenate([np.expand_dims(xv.flatten(), axis=1), np.expand_dims(yv.flatten(),axis=1)], axis=1))
-	grid = grid.view((nump*nump,1,2)).double().to(device=device)
+	grid = grid.view((nump*nump,1,2)).float().to(device=device)
 
 
 
@@ -271,6 +271,7 @@ def train_dnbp(config):
 
 		bpn = bpn.train()
 		epoch_seqs = 0
+		print("Staring Training Epoch:", i_epoch)
 		while epoch_seqs<1000:
 			for i_batch, sample_batched in tqdm(enumerate(train_dataloader)):
 				epoch_seqs += train_batch_size
@@ -341,7 +342,7 @@ def train_dnbp(config):
 					bpn.update_time()
 
 
-				if i_batch%10==0:
+				if i_batch%256==0:
 					epoch_train_loss.append(sum(tracked_losses)/len(tracked_losses))
 					# Plot output
 
@@ -350,8 +351,17 @@ def train_dnbp(config):
 				to_show=0#np.random.randint(0,batch)
 				# print('Loss:', loss)
 
-				unnormed_im = (x*std.view(1,3,1,1).to(device=device))+mean.view(1,3,1,1).to(device=device)
+				# unnormed_im = (x*std.view(1,3,1,1).to(device=device))+mean.view(1,3,1,1).to(device=device)
+				# unnormed_im = torch.clamp(unnormed_im, min=0, max=1)
+
+				# Convert the NumPy arrays to PyTorch tensors first
+				std_tensor = torch.from_numpy(std).view(1, 3, 1, 1).to(device).float()
+				mean_tensor = torch.from_numpy(mean).view(1, 3, 1, 1).to(device).float()
+
+				# Now the unnormalization operation will work correctly
+				unnormed_im = (x * std_tensor) + mean_tensor
 				unnormed_im = torch.clamp(unnormed_im, min=0, max=1)
+	
 
 				# print('Unary Samples:')
 				pose_plot.plot_unaries(bpn, grid, x, unnormed=unnormed_im, to_show=to_show, est_bounds=1.0, fname=os.path.join(epoch_path, 'unaries'+str(i_batch)+'.jpg'))
@@ -377,17 +387,19 @@ def train_dnbp(config):
 
 				# print('Time Delta Samples:')
 				pose_plot.plot_timedelta_sampling(bpn, num_samples=2000, est_bounds=1.0, fname=os.path.join(epoch_path, 'time_samples'+str(i_batch)+'.jpg'))
-			except:
+			except Exception as e:
+				print("Error in plotting, skipping this batch.")
+				print(e)
 				continue
 
 
-			
 
 
-
+			print("Evaluating Validation Set")
 			bpn = bpn.eval()
 			tracked_val_losses = []
 			for v_batch, sample_batched_ in enumerate(val_dataloader):
+				print("Validation Batch:", v_batch)
 				if v_batch>10:
 					break
 				sample_batched = sample_batched_
