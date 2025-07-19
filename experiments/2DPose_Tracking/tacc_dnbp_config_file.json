@@ -32,7 +32,7 @@
 	"enc_output_feats_tot": 1088, 
 	"multi_edge_samplers": false,
 
-	"train_mode": "marginal",
+	"train_mode": "joint",
 	"start_epoch":6
 }
 
