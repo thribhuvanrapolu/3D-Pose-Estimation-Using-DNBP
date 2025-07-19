@@ -342,7 +342,7 @@ def train_dnbp(config):
 					bpn.update_time()
 
 
-				if i_batch%256==0:
+				if i_batch%10==0:
 					epoch_train_loss.append(sum(tracked_losses)/len(tracked_losses))
 					# Plot output
 
@@ -387,6 +387,7 @@ def train_dnbp(config):
 
 				# print('Time Delta Samples:')
 				pose_plot.plot_timedelta_sampling(bpn, num_samples=2000, est_bounds=1.0, fname=os.path.join(epoch_path, 'time_samples'+str(i_batch)+'.jpg'))
+				print('plotting done')
 			except Exception as e:
 				print("Error in plotting, skipping this batch.")
 				print(e)
