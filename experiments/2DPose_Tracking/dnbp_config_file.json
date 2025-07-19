@@ -14,7 +14,7 @@
 	"std": 0.05,
 	"density_std": 0.0125,
 	"lambd": 0.9,
-	"train_batch_size": 6,
+	"train_batch_size": 10,
 	"test_batch_size": 1,
 	"use_augmentation": false,
 	"use_time": true,
