@@ -15,7 +15,7 @@
 	"density_std": 0.0125,
 	"lambd": 0.9,
 	"train_batch_size": 256,
-	"test_batch_size": 32w,
+	"test_batch_size": 32,
 	"use_augmentation": false,
 	"use_time": true,
 	"train_particle_count": 100,
