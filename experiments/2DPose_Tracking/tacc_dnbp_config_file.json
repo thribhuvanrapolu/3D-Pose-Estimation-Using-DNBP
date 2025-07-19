@@ -6,9 +6,8 @@
 	"inc_nghbrs": [[2, 11], [3, 10], [0], [1], [6, 12], [7, 12], [4, 8], [5, 9], [6], [7], [1, 14], [0, 14], [4, 5, 15, 16], [16], [10, 11, 15], [12, 14], [12, 13]],
 	"particle_size": 2,
 	"precision": "float32",
-	"lr": 0.0005,
+	"lr": 0.001,
 	"gamma": 1.0,
-	"train_mode": "marginal",
 	"num_epochs": 50,
 	"training_modes": ["w_lik", "w_unary", "w_neigh"],
 	"std": 0.05,
@@ -31,6 +30,9 @@
 	"shared_feats": false,
 	"enc_hidden_feats_tot": 1088,
 	"enc_output_feats_tot": 1088, 
-	"multi_edge_samplers": false
+	"multi_edge_samplers": false,
+
+	"train_mode": "marginal",
+	"start_epoch":6
 }
 
