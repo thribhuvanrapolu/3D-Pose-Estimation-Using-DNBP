@@ -272,11 +272,11 @@ def train_dnbp(config):
 		bpn = bpn.train()
 		epoch_seqs = 0
 		print("Staring Training Epoch:", i_epoch)
-		while epoch_seqs<3000:
+		while epoch_seqs<500:
 			for i_batch, sample_batched in tqdm(enumerate(train_dataloader)):
 				epoch_seqs += train_batch_size
 				print(epoch_seqs)
-				if epoch_seqs>3000:
+				if epoch_seqs>500:
 					break
 				# Window: B x S x C x H x W
 				# Labels: B x S x 3 x 2
@@ -343,6 +343,7 @@ def train_dnbp(config):
 
 
 				if i_batch%10==0:
+					print(sum(tracked_losses)/len(tracked_losses))
 					epoch_train_loss.append(sum(tracked_losses)/len(tracked_losses))
 					# Plot output
 
