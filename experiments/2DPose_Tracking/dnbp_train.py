@@ -342,8 +342,8 @@ def train_dnbp(config):
 					bpn.update_time()
 
 
-				# if i_batch%10==0:
-				epoch_train_loss.append(sum(tracked_losses)/len(tracked_losses))
+				if i_batch%10==0:
+					epoch_train_loss.append(sum(tracked_losses)/len(tracked_losses))
 					# Plot output
 
 		with torch.no_grad():
