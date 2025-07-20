@@ -150,7 +150,7 @@ def train_dnbp(config):
 			dens_optimizer = torch.load(os.path.join(config["model_folder"], "epoch_"+str(config["start_epoch"]),'dens_optim.pt'))
 			time_optimizer = torch.load(os.path.join(config["model_folder"], "epoch_"+str(config["start_epoch"]),'time_optim.pt'))
 		else:
-			optimizers = torch.load(os.path.join(config["model_folder"], "epoch_"+str(config["start_epoch"]),'bpnet_optim.pt'))
+			optimizers = torch.load(os.path.join(config["model_folder"], "epoch_"+str(config["start_epoch"]),'bpnet_optim.pt',weights_only=False))
 			schedulers = []
 			for opt in optimizers:
 				schedulers.append({"lik_scheduler":lr_scheduler.ExponentialLR(opt["lik_optimizer"], config["gamma"]),
