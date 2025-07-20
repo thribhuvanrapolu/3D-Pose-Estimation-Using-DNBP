@@ -321,6 +321,8 @@ def train_dnbp(config):
 								# Calculate output density at ground truth
 								loss -= torch.log(1e-50+bpn.density_estimation(i, tr[:,i].unsqueeze(1).unsqueeze(1), mode=mode))
 							loss = loss.mean()/len(config["training_modes"])
+							print(loss)
+
 							tracked_losses.append(loss.item())
 
 							loss.backward()
