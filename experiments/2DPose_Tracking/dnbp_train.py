@@ -82,12 +82,12 @@ def train_dnbp(config):
  
 
 	train_dataloader = DataLoader(train_dataset, batch_size=train_batch_size,
-	                        shuffle=True, num_workers=0)
+	                        shuffle=True, num_workers=config["num_workers"])
 	# test_dataloaders = [DataLoader(test_dataset, batch_size=test_batch_size,
 	#                         shuffle=True, num_workers=0) for test_dataset in test_datasets]
 
 	val_dataloader = DataLoader(val_dataset, batch_size=test_batch_size,
-	                        shuffle=True, num_workers=0)
+	                        shuffle=True, num_workers=config["num_workers"])
 
 	print()
 	print("Length of training data:", len(train_dataset))

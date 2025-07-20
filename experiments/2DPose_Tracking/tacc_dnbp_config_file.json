@@ -33,6 +33,7 @@
 	"multi_edge_samplers": false,
 
 	"train_mode": "marginal",
-	"start_epoch":6
+	"start_epoch":6,
+	"num_workers":8
 }
 
