@@ -14,8 +14,8 @@
 	"std": 0.05,
 	"density_std": 0.0125,
 	"lambd": 0.9,
-	"train_batch_size": 32,
-	"test_batch_size": 32,
+	"train_batch_size": 10,
+	"test_batch_size": 1,
 	"use_augmentation": false,
 	"use_time": true,
 	"train_particle_count": 100,
@@ -31,5 +31,6 @@
 	"shared_feats": false,
 	"enc_hidden_feats_tot": 1088,
 	"enc_output_feats_tot": 1088, 
-	"multi_edge_samplers": false
+	"multi_edge_samplers": false,
+	"num_workers": 1
 }

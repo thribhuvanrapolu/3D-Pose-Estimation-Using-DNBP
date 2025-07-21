@@ -237,6 +237,8 @@ def train_dnbp(config):
 									"dens_scheduler": lr_scheduler.ExponentialLR(optimizers[-1]["dens_optimizer"], config["gamma"]),
 									"time_scheduler": lr_scheduler.ExponentialLR(optimizers[-1]["time_optimizer"], config["gamma"])})
 
+	print("Number of nodes:", bpn.num_nodes)
+	print("Number of edges:", bpn.num_edges)
 
 	nump = 100
 	x = np.linspace(-1, 1, nump)
@@ -272,16 +274,18 @@ def train_dnbp(config):
 		bpn = bpn.train()
 		epoch_seqs = 0
 		print("Staring Training Epoch:", i_epoch)
-		while epoch_seqs<500:
+		while epoch_seqs<3000:
 			for i_batch, sample_batched in tqdm(enumerate(train_dataloader)):
 				epoch_seqs += train_batch_size
 				print(epoch_seqs)
-				if epoch_seqs>500:
+				if epoch_seqs>3000:
 					break
 				# Window: B x S x C x H x W
 				# Labels: B x S x 3 x 2
 				batch_images = sample_batched['window'].type(bpn.type)
 				batch_labels = sample_batched['labels'].type(bpn.type)
+				# print("batch image shape: ",batch_images.shape)
+				# print("batch label shape: ",batch_labels.shape)
 
 				# For now skip theta
 				batch_labels = batch_labels[:,:,:,:2]
@@ -321,7 +325,7 @@ def train_dnbp(config):
 								# Calculate output density at ground truth
 								loss -= torch.log(1e-50+bpn.density_estimation(i, tr[:,i].unsqueeze(1).unsqueeze(1), mode=mode))
 							loss = loss.mean()/len(config["training_modes"])
-							print(loss)
+							# print(loss)
 
 							tracked_losses.append(loss.item())
 
@@ -329,7 +333,7 @@ def train_dnbp(config):
 							
 
 							# Perform optimization step
-							if (i_epoch>4) and 'w_unary' in config["training_modes"]:
+							if 'w_unary' in config["training_modes"]:
 								smplr_optimizer.step()
 							    
 							if 'w_neigh' in config["training_modes"]:
@@ -344,9 +348,9 @@ def train_dnbp(config):
 					bpn.update_time()
 
 
-				if i_batch%10==0:
-					print(sum(tracked_losses)/len(tracked_losses))
-					epoch_train_loss.append(sum(tracked_losses)/len(tracked_losses))
+				# if i_batch%10==0:
+				print(sum(tracked_losses)/len(tracked_losses))
+				epoch_train_loss.append(sum(tracked_losses)/len(tracked_losses))
 					# Plot output
 
 		with torch.no_grad():

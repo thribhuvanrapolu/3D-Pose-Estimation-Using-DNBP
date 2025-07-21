@@ -522,7 +522,8 @@ class DNBP(nn.Module):
       if self.shared_feats:
           self.global_features = self.likelihood_features(x)
       else:
-          self.global_features = [extractor(x) for extractor in self.likelihood_features]   
+          self.global_features = [extractor(x) for extractor in self.likelihood_features]
+      # print("Global features: ",self.global_features)
            
         
     

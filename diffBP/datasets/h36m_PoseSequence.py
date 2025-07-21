@@ -130,6 +130,11 @@ class PoseSequenceDataset(Dataset):
         # Stack list of (Num_KP, 2) arrays into a (T, Num_KP, 2) tensor
         keypoints_tensor = torch.from_numpy(np.stack(keypoints_2d_sequence, axis=0))
         
+        # Normalize keypoints from pixel space to [-1, 1] range
+        keypoints_tensor[..., 0] = (keypoints_tensor[..., 0] / self.BBOX_SHAPE[0]) * 2 - 1 # normalize x by width
+        keypoints_tensor[..., 1] = (keypoints_tensor[..., 1] / self.BBOX_SHAPE[1]) * 2 - 1 # normalize y by height
+
+
         item = {
             'window': video_tensor,
             'labels': keypoints_tensor
@@ -138,7 +143,7 @@ class PoseSequenceDataset(Dataset):
         return item
     
      
-    def visualize_data(full_image_rgb, img_patch_rgb, transformed_keypoints, original_keypoints, center, bbox_size):
+    def visualize_data(self,full_image_rgb, img_patch_rgb, transformed_keypoints, original_keypoints, center, bbox_size):
         """
         Visualizes the pre-processing steps for a single sample.
         This function is independent of the dataset class.

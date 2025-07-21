@@ -31,5 +31,6 @@
 	"shared_feats": false,
 	"enc_hidden_feats_tot": 1088,
 	"enc_output_feats_tot": 1088, 
-	"multi_edge_samplers": false
+	"multi_edge_samplers": false,
+	"num_workers": 1
 }
