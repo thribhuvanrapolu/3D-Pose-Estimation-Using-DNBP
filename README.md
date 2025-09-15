@@ -2,7 +2,7 @@
 
 
 - Belief Particles
-<img width="1371" height="1052" alt="image" src="https://github.com/user-attachments/assets/9a453bf9-1864-44a7-adfa-807eab785fbb" />
+<img width="700" height="500" alt="image" src="https://github.com/user-attachments/assets/9a453bf9-1864-44a7-adfa-807eab785fbb" />
 
 - Weights likelihood
 <img width="1371" height="1052" alt="image" src="https://github.com/user-attachments/assets/7033d924-d989-4d91-8250-f8955546b7b9" />
