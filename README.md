@@ -10,7 +10,7 @@
 - Neighboring Node weights
 <img width="1371" height="1052" alt="image" src="https://github.com/user-attachments/assets/f0e05e99-3c42-43f5-8c98-6f041e34a677" />
 
--ToDo:
+- ToDo:
  - Add 3D Visualizations
 
 ----
