@@ -1,3 +1,18 @@
+# 3D Human Pose Estimation Using DNBP
+
+
+- Belief Particles
+<img width="1371" height="1052" alt="image" src="https://github.com/user-attachments/assets/9a453bf9-1864-44a7-adfa-807eab785fbb" />
+
+- Weights likelihood
+<img width="1371" height="1052" alt="image" src="https://github.com/user-attachments/assets/7033d924-d989-4d91-8250-f8955546b7b9" />
+
+- Neighboring Node weights
+<img width="1371" height="1052" alt="image" src="https://github.com/user-attachments/assets/f0e05e99-3c42-43f5-8c98-6f041e34a677" />
+
+
+
+----
 # DNBP: Differentiable Nonparametric Belief Propagation
 ![](.assets/teaser.png)
 
